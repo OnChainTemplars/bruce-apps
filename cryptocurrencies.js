@@ -37,11 +37,8 @@ var URL = "https://api.coingecko.com/api/v3/simple/price?ids=" + ids + "&vs_curr
 var currentIndex = 0;
 var lastUpdate = 0;
 var intervalUpdate = 30000;
-var errorMessage = null;
 
 function fetchPrices() {
-    errorMessage = null;
-
     var response = wifi.httpFetch(URL, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -55,11 +52,11 @@ function fetchPrices() {
             if (data[id] && data[id].usd !== undefined) {
                 cryptocurrenciesList[i].price = data[id].usd;
             } else {
-                errorMessage = "The price was not found";
+                dialog.error("The price was not found { id=" + id + " }", true);
             }
         }
     } else {
-        errorMessage = "API Error: " + response.code;
+        dialog.error("API Error: " + response.code, true);
     }
 }
 
@@ -73,12 +70,7 @@ function updateDisplay() {
     var currentName = cryptocurrenciesList[currentIndex].name;
     var currentPrice = cryptocurrenciesList[currentIndex].price;
 
-    if (errorMessage !== null) {
-        display.setTextColor(display.color(255, 0, 0));
-        display.setTextSize(1);
-        display.setTextAlign("center", "middle");
-        display.drawText(errorMessage, centerX, centerY1);
-    } else if (currentPrice !== null) {
+    if (currentPrice !== null) {
         // Draw name
         display.setTextColor(display.color(255, 255, 255));
         display.setTextSize(2);
@@ -100,8 +92,7 @@ function updateDisplay() {
 
 function main() {
     if (!wifi.connected()) {
-        errorMessage = "No Wi-Fi connection";
-        updateDisplay();
+        dialog.error("No Wi-Fi connection", true);
         return;
     }
 
