@@ -21,7 +21,9 @@ var cryptocurrenciesList = [
     { id: "monero", name: "Monero (XMR)", price: 0 },
     { id: "polkadot", name: "Polkadot (DOT)", price: 0 },
     { id: "cosmos", name: "Cosmos Hub (ATOM)", price: 0 },
-    { id: "aptos", name: "Aptos (APT)", price: 0 }
+    { id: "cardano", name: "Cardano (ADA)", price: 0 },
+    { id: "aptos", name: "Aptos (APT)", price: 0 },
+    { id: "tron", name: "Tron (TRX)", price: 0 }
 ];
 var lengthCryptoList = cryptocurrenciesList.length;
 
