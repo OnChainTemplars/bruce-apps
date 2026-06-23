@@ -17,7 +17,7 @@ const keyboard = require("keyboard");
 const wifi = require("wifi");
 
 var history = [];
-var historyPointer = 0;
+var historyPointer = -1;
 
 var URL = "https://";
 
@@ -26,8 +26,6 @@ var resultChoice = optionsObject["Enter web address"];
 
 function main() {
     while (true) {
-        dialog.drawStatusBar();
-
         if (!wifi.connected()) {
             dialog.error("No Wi-Fi connection", true);
             break;
@@ -35,15 +33,15 @@ function main() {
 
         if (resultChoice == optionsObject["Enter web address"]) {
             URL = dialog.prompt(URL);
-            history[historyPointer] = URL;
             historyPointer++;
+            history[historyPointer] = URL;
         } else if (resultChoice == optionsObject["Go Back"]) {
             if (historyPointer != 0) {
                 historyPointer--;
                 URL = history[historyPointer];
             }
         } else if (resultChoice == optionsObject["Go Forward"]) {
-            if (historyPointer < history.length) {
+            if (historyPointer <= history.length) {
                 historyPointer++;
                 URL = history[historyPointer];
             }
